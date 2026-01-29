@@ -29,5 +29,5 @@ Your server is live and running smoothly, providing a **Fast, Scalable, and Secu
 
 1. Clone the repository:
 ```bash
-git clone <your-repo-url>
-cd <your-project-folder>
+git clone https://github.com/mhmd-laravel-wd/Node_JS_Express.git
+cd Node_JS_Express
