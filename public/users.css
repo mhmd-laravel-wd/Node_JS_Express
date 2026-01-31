@@ -1,0 +1,115 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  height: 100vh;
+  background: radial-gradient(circle at top left, #3c873a, #1e3c72, #000);
+  overflow: hidden;
+  color: #fff;
+}
+
+/* Floating gradient shapes */
+.blob {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: linear-gradient(135deg, #3c873a, #68a063);
+  filter: blur(120px);
+  opacity: 0.6;
+  animation: float 12s infinite ease-in-out;
+}
+
+.blob.one { top: -100px; left: -100px; }
+.blob.two { bottom: -150px; right: -100px; animation-delay: 4s; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-40px); }
+}
+
+/* Center Card */
+.wrapper {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+.card {
+  width: 500px;
+  max-width: 90%;
+  padding: 40px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  animation: fadeIn 1.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.logo { font-size: 3.5rem; margin-bottom: 10px; }
+h1 { font-size: 2.4rem; font-weight: 700; margin-bottom: 10px; }
+p { font-size: 1.1rem; opacity: 0.9; margin-bottom: 20px; }
+
+/* Table styling */
+.table-wrapper {
+  overflow-x: auto;
+  margin-bottom: 25px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+table th, table td {
+  padding: 12px;
+  text-align: left;
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+table th {
+  background: rgba(0, 0, 0, 0.3);
+  font-weight: 600;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 14px 30px;
+  border-radius: 30px;
+  background: linear-gradient(135deg, #68a063, #3c873a);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+}
+
+.btn.back { background: rgba(255, 255, 255, 0.15); color: #fff; }
+
+/* Footer */
+footer {
+  margin-top: 15px;
+  font-size: 0.8rem;
+  opacity: 0.6;
+}

@@ -1,52 +1,102 @@
-const express = require("express"),
-  mongoose = require("mongoose"),
-  path = require("path"),
-  User = require(path.join(__dirname, "models", "userSchema.js")),
-  app = express();
-
+/**
+ * ===============================
+ * تحميل متغيرات البيئة
+ * ===============================
+ * يقوم بتحميل المتغيرات من ملف .env إلى process.env
+ */
 require("dotenv").config();
 
+/**
+ * ===============================
+ * الاستدعاءات الأساسية
+ * ===============================
+ */
+const express = require("express");
+const path = require("path");
+
+/**
+ * ===============================
+ * إعدادات التطبيق
+ * ===============================
+ * - الاتصال بقاعدة البيانات
+ * - تشغيل Livereload للتطوير
+ */
+const { connectDB } = require("./config/database");
+const initLiveReload = require("./config/livereload");
+
+/**
+ * ===============================
+ * إنشاء تطبيق Express
+ * ===============================
+ */
+const app = express();
+
+/**
+ * ===============================
+ * الميدل ويرز (Middlewares)
+ * ===============================
+ */
+
+/**
+ * تحليل بيانات النماذج (Forms)
+ * يمكن الوصول لبيانات الفورم عبر req.body
+ */
 app.use(express.urlencoded({ extended: true }));
 
-const APP_URL = process.env.APP_URL || "localhost",
-  APP_PORT = process.env.APP_PORT || 3000,
-  DB_PASSWORD = process.env.DB_PASSWORD,
-  DB_USERNAME = process.env.DB_USERNAME,
-  DB_NAME = process.env.DB_NAME,
-  mongoURL = `mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}@cluster0.ygya0jz.mongodb.net/${DB_NAME}?appName=Cluster0`;
+/**
+ * تقديم الملفات الثابتة (CSS, JS, صور)
+ * الملفات موجودة في مجلد /public
+ */
+app.use(express.static("public"));
 
-mongoose
-  .connect(mongoURL)
-  .then(() => {
-    console.log("MongoDB connected successfully!");
+/**
+ * ضبط محرك القوالب ليكون EJS
+ */
+app.set("view engine", "ejs");
 
-    app.get("/", (req, res) => {
-      res.sendFile(path.join(__dirname, "views", "home.html"));
-    });
+/**
+ * ===============================
+ * تحديث تلقائي للصفحة (Auto Reload)
+ * ===============================
+ * يقوم بتحديث الصفحة تلقائيًا عند تغيير الملفات أثناء التطوير
+ * يتم تعطيله في بيئة الإنتاج
+ */
+if (process.env.NODE_ENV !== "production") {
+  initLiveReload(app);
+}
 
-    app.get("/form", (req, res) => {
-      res.sendFile(path.join(__dirname, "views", "form.html"));
-    });
+/**
+ * ===============================
+ * تعريف المسارات (Routes)
+ * ===============================
+ * يتم تنظيم المسارات في ملفات منفصلة لسهولة الصيانة
+ */
+const indexRoutes = require("./routes/index.routes");
+const userRoutes = require("./routes/user.routes");
 
-    app.post("/post-username", (req, res) => {
-      console.log(req.body);
-      const user = new User(req.body);
-      user
-        .save()
-        .then(() => {
-          console.log(`User saved`);
-          res.redirect("/" /*http://localhost:3000/form*/);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    });
+/**
+ * ===============================
+ * تشغيل السيرفر
+ * ===============================
+ * يبدأ السيرفر فقط بعد الاتصال الناجح بقاعدة البيانات
+ */
+const PORT = process.env.APP_PORT || 3000;
+const URL = process.env.APP_URL || "localhost";
 
-    app.listen(APP_PORT, () => {
-      console.log(`Server is running..!`);
-      console.log(`http://${APP_URL}:${APP_PORT}`);
-    });
-  })
-  .catch((err) => {
-    console.error("MongoDB connection error:", err);
+// Send AppURl to the pages
+indexRoutes.setAppUrl(`http://${URL}:${PORT}`);
+userRoutes.setAppUrl(`http://${URL}:${PORT}`);
+
+// استخدام الروترات
+app.use("/", indexRoutes);
+app.use("/", userRoutes);
+
+app.use((req, res, next) => {
+  res.locals.appUrl = `http://${URL}:${PORT}`; // <%= appUrl %> في القوالب
+  next();
+});
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server is running at: http://${URL}:${PORT}`);
   });
+});

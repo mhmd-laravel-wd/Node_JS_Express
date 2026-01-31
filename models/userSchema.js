@@ -1,25 +1,56 @@
+/**
+ * ===============================
+ * استدعاء مكتبة Mongoose
+ * ===============================
+ * Mongoose تساعد على التعامل مع MongoDB بسهولة
+ */
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-// Create a new schema to define the structure of the data
+/**
+ * ===============================
+ * تعريف Schema (هيكل البيانات)
+ * ===============================
+ * Schema يحدد شكل البيانات في قاعدة البيانات
+ */
 const dataSchema = new Schema({
-  // Username field
-  // - type: must be a string
-  // - required: cannot be empty
+  /**
+   * حقل اسم المستخدم
+   * - النوع: String
+   * - مطلوب: لا يمكن تركه فارغ
+   * - trim: إزالة المسافات الزائدة من البداية والنهاية
+   */
   username: {
     type: String,
-    required: [true, "Username is required"], // Validation message
-    trim: true, // Remove extra spaces
+    required: [true, "اسم المستخدم مطلوب"], // رسالة التحقق عند ترك الحقل فارغ
+    trim: true,
   },
+
+  /**
+   * حقل كلمة المرور
+   * - النوع: String
+   * - مطلوب: لا يمكن تركه فارغ
+   * - trim: إزالة المسافات الزائدة من البداية والنهاية
+   */
   password: {
     type: String,
-    required: [true, "Password is required"], // Validation message
-    trim: true, // Remove extra spaces
+    required: [true, "كلمة المرور مطلوبة"], // رسالة التحقق عند ترك الحقل فارغ
+    trim: true,
   },
 });
 
-// Create a Mongoose model based on the schema
+/**
+ * ===============================
+ * إنشاء الموديل (Model)
+ * ===============================
+ * الموديل هو الواجهة للتعامل مع قاعدة البيانات (CRUD)
+ */
 const User = mongoose.model("User", dataSchema);
 
-// Export the model so it can be used in other files
+/**
+ * ===============================
+ * تصدير الموديل
+ * ===============================
+ * لكي يمكن استخدامه في ملفات أخرى مثل controllers أو routes
+ */
 module.exports = User;

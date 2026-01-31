@@ -1,19 +1,23 @@
 {
   "name": "node_js_express",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon app.js"
+    "start": "node app.js",
+    "watch": "nodemon --ext *"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "connect-livereload": "^0.6.1",
     "cors": "^2.8.6",
     "dotenv": "^17.2.3",
+    "ejs": "^4.0.1",
     "express": "^5.2.1",
+    "livereload": "^0.10.3",
     "mongodb": "^7.0.0",
     "mongoose": "^9.1.5",
     "nodemon": "^3.1.11",

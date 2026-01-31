@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Users | Node.js Server</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="users.css">
+</head>
+<body>
+
+  <!-- Floating blobs -->
+  <div class="blob one"></div>
+  <div class="blob two"></div>
+
+  <div class="wrapper">
+    <div class="card">
+      <div class="logo">👥</div>
+      <h1>Users Table</h1>
+      <p>List of all registered users</p>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Username</th>
+              <th>Password</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% users.forEach((user, index) => { %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td><%= user.username %></td>
+                <td><%= user.password %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+
+      <a href="<%= appUrl %>/" class="btn back">⬅ Back</a>
+
+      <footer>© 2026 Node.js Application</footer>
+    </div>
+  </div>
+
+</body>
+</html>
